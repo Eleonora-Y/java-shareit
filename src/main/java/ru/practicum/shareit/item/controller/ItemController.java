@@ -30,13 +30,13 @@ public class ItemController {
 
     @GetMapping("/{itemId}")
     public ItemDto getItemById(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long itemId) {
-        log.info("Получение вещи по идентификатору. Id="+ itemId);
+        log.info("Получение вещи по идентификатору.");
         return itemService.get(itemId);
     }
 
     @GetMapping
     public List<ItemDto> getAllItems(@RequestHeader("X-Sharer-User-Id") Long userId) {
-        log.info("Получение всех вещей пользователя по идентификатору. Id="+ userId);
+        log.info("Получение всех вещей пользователя по идентификатору.");
         return itemService.getAll(userId);
     }
 
