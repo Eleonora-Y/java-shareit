@@ -24,26 +24,26 @@ public class ItemController {
 
     @PostMapping
     public ItemDto createItem(@RequestHeader("X-Sharer-User-Id") Long userId, @Valid @RequestBody ItemDto itemDto) {
-        log.info("Создание новой вещи.");
+        log.debug("POST-запрос на создание новой вещи.");
         return itemService.create(userId, itemDto);
     }
 
     @GetMapping("/{itemId}")
     public ItemDto getItemById(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long itemId) {
-        log.info("Получение вещи по идентификатору.");
+        log.debug("GET-запрос на получение вещи по идентификатору.");
         return itemService.get(itemId);
     }
 
     @GetMapping
     public List<ItemDto> getAllItems(@RequestHeader("X-Sharer-User-Id") Long userId) {
-        log.info("Получение всех вещей пользователя по идентификатору.");
+        log.debug("GET-запрос на получение всех вещей пользователя по идентификатору.");
         return itemService.getAll(userId);
     }
 
     @PatchMapping("/{itemId}")
     public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long itemId,
                               @RequestBody ItemDto itemDto) {
-        log.info("Обновление вещи.");
+        log.debug("PATCH-запрос на обновление вещи.");
 
 
         return itemService.update(userId, itemId, itemDto);
@@ -63,4 +63,3 @@ public class ItemController {
                 .collect(Collectors.toList());
     }
 }
-
