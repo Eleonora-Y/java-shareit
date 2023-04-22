@@ -24,26 +24,26 @@ public class ItemController {
 
     @PostMapping
     public ItemDto createItem(@RequestHeader("X-Sharer-User-Id") Long userId, @Valid @RequestBody ItemDto itemDto) {
-        log.debug("POST-запрос на создание новой вещи.");
+        log.debug("Создание новой вещи.");
         return itemService.create(userId, itemDto);
     }
 
     @GetMapping("/{itemId}")
     public ItemDto getItemById(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long itemId) {
-        log.debug("GET-запрос на получение вещи по идентификатору.");
+        log.debug("Получение вещи по идентификатору.");
         return itemService.get(itemId);
     }
 
     @GetMapping
     public List<ItemDto> getAllItems(@RequestHeader("X-Sharer-User-Id") Long userId) {
-        log.debug("GET-запрос на получение всех вещей пользователя по идентификатору.");
+        log.debug("Получение всех вещей пользователя по идентификатору.");
         return itemService.getAll(userId);
     }
 
     @PatchMapping("/{itemId}")
     public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long itemId,
                               @RequestBody ItemDto itemDto) {
-        log.debug("PATCH-запрос на обновление вещи.");
+        log.debug("Обновление вещи.");
 
 
         return itemService.update(userId, itemId, itemDto);
@@ -51,13 +51,13 @@ public class ItemController {
 
     @DeleteMapping("/{itemId}")
     public void deleteItem(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long itemId) {
-        log.debug("DELETE-запрос на удаление вещи.");
+        log.debug("Удаление вещи.");
         itemService.delete(userId, itemId);
     }
 
     @GetMapping("/search")
     public List<ItemDto> searchItemByParams(@RequestParam String text) {
-        log.debug("GET-запрос на поиск вещей.", text);
+        log.debug("Поиск вещей.", text);
         return itemService.search(text).stream()
                 .map(ItemMapper::toItemDto)
                 .collect(Collectors.toList());
