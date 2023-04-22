@@ -19,31 +19,31 @@ public class UserController {
 
     @PostMapping
     public UserDto createUser(@Valid @RequestBody UserDto userDto) {
-        log.debug("POST-запрос на создание нового пользователя.");
+        log.debug("Создание нового пользователя.");
         return userService.create(userDto);
     }
 
     @GetMapping("/{userId}")
     public UserDto getUserById(@PathVariable Long userId) {
-        log.debug("GET-запрос на вывод пользователя по идентификатору.");
+        log.debug("Вывод пользователя по идентификатору.");
         return userService.getUserById(userId);
     }
 
     @GetMapping
     public List<UserDto> getAllUsers() {
-        log.debug("GET-запрос на вывод всех пользователей.");
+        log.debug("Вывод всех пользователей.");
         return userService.getAll();
     }
 
     @PatchMapping("/{userId}")
     public UserDto updateUser(@PathVariable Long userId, @RequestBody UserDto userDto) {
-        log.debug("PATCH-запрос на обновление пользователя.");
+        log.debug("Обновление пользователя.");
         return userService.update(userId, userDto);
     }
 
     @DeleteMapping("/{userId}")
     public void deleteUserById(@PathVariable Long userId) {
-        log.debug("DELETE-запрос на удаление пользователя.");
+        log.debug("Удаление пользователя.");
         userService.deleteUserById(userId);
     }
 }
