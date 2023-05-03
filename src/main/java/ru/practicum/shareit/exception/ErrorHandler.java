@@ -1,58 +1,86 @@
 package ru.practicum.shareit.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 
-@RestControllerAdvice("ru.practicum.shareit")
+@RestControllerAdvice
 @Slf4j
 public class ErrorHandler {
 
     @ExceptionHandler
-    public ResponseEntity<String> handleValidation(final ValidationException e) {
-        log.debug(e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleBadRequestException(final BadRequestException e) {
+        log.warn("400 {}", e.getMessage());
+        return ErrorMessage.builder().error(e.getMessage()).build();
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> handleAlreadyExist(final AlreadyExistsException e) {
-        log.debug(e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleValidationException(ValidationException e) {
+        log.warn("400 {}", e.getMessage(), e);
+        return ErrorMessage.builder().error(e.getMessage()).build();
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> handleNotFound(final NotFoundException e) {
-        log.debug(e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleNotAvailableException(NotAvailableException e) {
+        log.warn("400 {}", e.getMessage());
+        return ErrorMessage.builder().error(e.getMessage()).build();
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> handleNotFound(final OperationAccessException e) {
-        log.debug(e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorMessage handleDuplicateEmail(final ConstraintViolationException e) {
+        log.warn("409 {}", e.getMessage());
+        return ErrorMessage.builder().error(e.getMessage()).build();
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> handleSpringValidation(final MethodArgumentNotValidException e) {
-        log.debug(e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorMessage handleUnknownDataException(NotFoundException e) {
+        log.warn("404 {}", e.getMessage());
+        return ErrorMessage.builder().error(e.getMessage()).build();
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> handleConstraintViolation(final ConstraintViolationException e) {
-        log.debug(e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorMessage handlerAccessException(final OperationAccessException e) {
+        log.warn("404 {}", e.getMessage());
+        return ErrorMessage.builder().error(e.getMessage()).build();
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> handleInternalServerError(final Throwable e) {
-        log.debug(e.getMessage());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorMessage handleThrowable(final Exception e) {
+        log.warn("500 {}", e.getMessage());
+        return ErrorMessage.builder().error(e.getMessage()).build();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleUnknownDataException(MethodArgumentNotValidException e) {
+        log.warn("400 {}", e.getMessage());
+        return ErrorMessage.builder().error(e.getMessage()).build();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleUnknownDataException(TimeDataException e) {
+        log.warn("400 {}", e.getMessage());
+        return ErrorMessage.builder().error(e.getMessage()).build();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorMessage handleThrowable(Throwable throwable) {
+        log.error("Unknown error", throwable);
+        return ErrorMessage.builder().error(throwable.getMessage()).build();
     }
 }

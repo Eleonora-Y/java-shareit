@@ -1,35 +1,35 @@
 package ru.practicum.shareit.item.model;
 
-import lombok.Builder;
-import lombok.Data;
-import ru.practicum.shareit.request.model.ItemRequest;
-import ru.practicum.shareit.user.model.User;
+import lombok.*;
+import ru.practicum.shareit.booking.dto.ShortItemBookingDto;
+import ru.practicum.shareit.item.comment.dto.CommentDto;
 
-import java.util.Objects;
+import javax.persistence.*;
+import java.util.List;
 
-/**
- * TODO Sprint add-controllers.
- */
+@Entity
+@Table(name = "items")
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "name", nullable = false)
     private String name;
+    @Column(name = "description", nullable = false)
     private String description;
+    @Column(name = "is_available", nullable = false)
     private Boolean available;
-    private User owner;
-    private ItemRequest request;
+    @Column(name = "owner_id", nullable = false)
+    private Long ownerId;
+    @Transient
+    private ShortItemBookingDto lastBooking;
+    @Transient
+    private ShortItemBookingDto nextBooking;
+    @Transient
+    private List<CommentDto> comments;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
-        return id.equals(item.id) || name.equals(item.name) && description.equals(item.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description);
-    }
 }
