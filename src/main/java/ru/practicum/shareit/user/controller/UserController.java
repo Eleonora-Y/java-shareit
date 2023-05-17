@@ -14,37 +14,35 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
-
     private final UserService userService;
 
     @PostMapping
-    public UserDto createUser(@Valid @RequestBody UserDto userDto) {
-        log.debug("Создание нового пользователя.");
+    public UserDto create(@Valid @RequestBody UserDto userDto) {
+        log.debug("POST-запрос на создание нового пользователя.");
         return userService.create(userDto);
     }
 
     @GetMapping("/{userId}")
-    public UserDto getUserById(@PathVariable Long userId) {
-        log.debug("Вывод пользователя по идентификатору.");
-        return userService.getUserById(userId);
+    public UserDto findById(@PathVariable long userId) {
+        log.debug("GET-запрос на вывод пользователя по идентификатору.");
+        return userService.findUserById(userId);
     }
 
     @GetMapping
-    public List<UserDto> getAllUsers() {
-        log.debug("Вывод всех пользователей.");
-        return userService.getAll();
+    public List<UserDto> findAll() {
+        log.debug("GET-запрос на вывод всех пользователей.");
+        return userService.findAllUsers();
     }
 
     @PatchMapping("/{userId}")
-    public UserDto updateUser(@PathVariable Long userId, @RequestBody UserDto userDto) {
-        log.debug("Обновление пользователя.");
-        return userService.update(userId, userDto);
+    public UserDto update(@RequestBody UserDto userDto, @PathVariable long userId) {
+        log.debug("PATCH-запрос на обновление пользователя.");
+        return userService.update(userDto, userId);
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteUserById(@PathVariable Long userId) {
-        log.debug("Удаление пользователя.");
-        userService.deleteUserById(userId);
+    public void delete(@PathVariable long userId) {
+        log.debug("DELETE-запрос на удаление пользователя.");
+        userService.delete(userId);
     }
 }
-

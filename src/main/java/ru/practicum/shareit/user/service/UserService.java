@@ -1,76 +1,57 @@
 package ru.practicum.shareit.user.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.exception.AlreadyExistsException;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.user.dto.UserDto;
-import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.storage.UserStorage;
+import ru.practicum.shareit.user.repository.UserRepository;
+import ru.practicum.shareit.user.mapper.UserMapper;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static ru.practicum.shareit.user.mapper.UserMapper.toUser;
+import static ru.practicum.shareit.user.mapper.UserMapper.toUserDto;
+
 @Service
-@RequiredArgsConstructor
-@Slf4j
+@AllArgsConstructor
 public class UserService {
+    private final UserRepository userRepository;
 
-    private final UserStorage userStorage;
-
+    @Transactional
     public UserDto create(UserDto userDto) {
-        User user = UserMapper.toUser(userDto);
-        if (user.getId() != null && userStorage.checkUserId(user.getId())) {
-            throw new AlreadyExistsException("Такой пользователь уже существует");
-        }
-        if (userStorage.getAll().contains(user)) {
-            throw new AlreadyExistsException("Такой пользователь уже существует");
-        }
-        user = userStorage.create(user);
-        return UserMapper.toUserDto(user);
+        return toUserDto(userRepository.save(toUser(userDto)));
     }
 
-    public UserDto getUserById(Long id) {
-
-        User user = userStorage.get(id).orElseThrow(
-                () -> new NotFoundException("Пользователь с таким идентификатором не был найден.")
-        );
-        return UserMapper.toUserDto(user);
+    @Transactional
+    public UserDto findUserById(Long userId) {
+        return toUserDto(userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(String.format("User with id = %d not found.", userId))));
     }
 
-    public List<UserDto> getAll() {
-        return userStorage.getAll().stream()
+    @Transactional
+    public List<UserDto> findAllUsers() {
+        return userRepository.findAll().stream()
                 .map(UserMapper::toUserDto)
                 .collect(Collectors.toList());
     }
 
-    public UserDto update(Long userId, UserDto userDto) {
-        User newUser = UserMapper.toUser(userDto);
-
-        if (!userStorage.checkUserId(userId)) {
-            throw new NotFoundException("Пользователь с таким идентификатором не был найден.");
+    @Transactional
+    public UserDto update(UserDto userDto, Long userId) {
+        User user = toUser(findUserById(userId));
+        if (userDto.getName() != null) {
+            user.setName(userDto.getName());
         }
-        User oldUser = UserMapper.toUser(getUserById(userId));
-        Optional<User> dupleEmailUser = userStorage.findUserByEmail(newUser.getEmail());
-        if (dupleEmailUser.isPresent() && !dupleEmailUser.get().getId().equals(userId)) {
-            throw new AlreadyExistsException("Пользователь с таким адрессом эл.почты уже существует.");
+        if (userDto.getEmail() != null) {
+            user.setEmail(userDto.getEmail());
         }
-        if (newUser.getName() != null) {
-            oldUser.setName(newUser.getName());
-        }
-        if (newUser.getEmail() != null) {
-            oldUser.setEmail(newUser.getEmail());
-        }
-        return UserMapper.toUserDto(userStorage.update(userId, oldUser));
+        return toUserDto(userRepository.save(user));
     }
 
-    public void deleteUserById(Long userId) {
-        if (!userStorage.checkUserId(userId)) {
-            throw new NotFoundException("Пользователь с таким идентификатором не был найден.");
-        }
-        userStorage.delete(userId);
+    @Transactional
+    public void delete(Long userId) {
+        userRepository.deleteById(userId);
     }
 }
