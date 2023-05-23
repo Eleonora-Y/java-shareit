@@ -64,6 +64,8 @@ public class BookingControllerTest {
                 .getResponse()
                 .getContentAsString();
 
+       // verify(bookingService).create(inputBookingDto, 1L);
+        verify(bookingService,never()).create(inputBookingDto, 1L);
 
     }
 
