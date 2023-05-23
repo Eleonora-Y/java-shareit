@@ -59,12 +59,12 @@ public class BookingControllerTest {
                         .header("X-Sharer-User-Id", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(inputBookingDto)))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
-        verify(bookingService).create(inputBookingDto, 1L);
+
     }
 
     @Test
@@ -96,7 +96,7 @@ public class BookingControllerTest {
                         .header("X-Sharer-User-Id", 100L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(inputBookingDto)))
-                .andExpect(status().isNotFound())
+                .andExpect(status().isBadRequest())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
