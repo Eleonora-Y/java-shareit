@@ -2,6 +2,7 @@ package ru.practicum.shareit.booking;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -11,10 +12,12 @@ import ru.practicum.shareit.booking.dto.OutputBookingDto;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.booking.repository.BookingRepository;
+import ru.practicum.shareit.booking.service.BookingService;
 import ru.practicum.shareit.booking.service.BookingServiceImpl;
 import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.item.service.ItemServiceImpl;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
@@ -164,4 +167,15 @@ public class BookingServiceTest {
                 () -> bookingService.approve(1L, 1L, true));
         assertEquals(e.getMessage(), String.format("User with id = %d is not the owner, no access to booking.", 1L));
     }
+
+    @Test
+    void getAllBookingsByOwner_whenStateIsUnknown_thenReturnedBadRequestException() {
+        Mockito.when(userService.findUserById(anyLong()))
+                .thenReturn(userDto);
+        Exception e = assertThrows(BadRequestException.class,
+                () -> bookingService.findAllBookingsByOwner("UNKNOWN_STATE", 1L, 0, 10));
+        assertEquals(e.getMessage(), "Unknown state: UNKNOWN_STATE");
+    }
+
+
 }

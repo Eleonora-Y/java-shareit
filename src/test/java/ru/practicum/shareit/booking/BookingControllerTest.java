@@ -180,4 +180,5 @@ public class BookingControllerTest {
                 .getResponse()
                 .getContentAsString();
     }
+
 }
