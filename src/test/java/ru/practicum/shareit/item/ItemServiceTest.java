@@ -234,6 +234,7 @@ public class ItemServiceTest {
         assertEquals(testComment.getText(), commentDto.getText());
         assertEquals(testComment.getAuthorName(), commentDto.getAuthorName());
     }
+
     @Test
     void findOwnerId_whenItemIsNotFound_thenReturnedNotFoundException() {
         Mockito.when(itemRepository.findById(anyLong()))
@@ -246,10 +247,9 @@ public class ItemServiceTest {
 
     @Test
     void deleteById() {
-      itemService.deleteById(1L);
+        itemService.deleteById(1L);
         Mockito.verify(itemRepository).deleteById(1L);
     }
-
 
 
 }
