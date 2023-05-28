@@ -19,12 +19,9 @@ import ru.practicum.shareit.item.service.ItemServiceImpl;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserServiceImpl;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 
 @ExtendWith(MockitoExtension.class)
@@ -70,6 +67,7 @@ public class BookingServiceTest {
             .id(1L)
             .status(BookingStatus.APPROVED)
             .item(item).build();
+
 
     @Test
     void createBooking_whenTimeIsNotValid_thenReturnedTimeDataException() {
@@ -174,5 +172,5 @@ public class BookingServiceTest {
         assertEquals(e.getMessage(), "Unknown state: UNKNOWN_STATE");
     }
 
+    }
 
-}
