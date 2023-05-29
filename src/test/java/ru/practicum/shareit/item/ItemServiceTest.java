@@ -244,6 +244,7 @@ public class ItemServiceTest {
                 () -> itemService.findOwnerId(100L));
         assertEquals(e.getMessage(), String.format("Item with id = %d not found.", 100L));
     }
+    
     @Test
     void deleteById() {
         itemService.deleteById(1L);
