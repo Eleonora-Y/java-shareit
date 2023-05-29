@@ -3,6 +3,7 @@ package ru.practicum.shareit.item.model;
 import lombok.*;
 import ru.practicum.shareit.booking.dto.ShortItemBookingDto;
 import ru.practicum.shareit.item.comment.dto.CommentDto;
+import ru.practicum.shareit.request.model.ItemRequest;
 
 import javax.persistence.*;
 import java.util.List;
@@ -31,5 +32,8 @@ public class Item {
     private ShortItemBookingDto nextBooking;
     @Transient
     private List<CommentDto> comments;
+    @ManyToOne
+    @JoinColumn(name = "request_id")
+    private ItemRequest itemRequest;
 
 }
