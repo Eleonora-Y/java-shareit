@@ -46,6 +46,7 @@ public class ItemServiceImpl implements ItemService {
     private final ItemRequestServiceImpl requestService;
 
     @Override
+    @Transactional
     public ItemDto create(Long userId, ItemDto itemDto) {
         userService.findUserById(userId);
         Item item = ItemMapper.toItem(itemDto);
@@ -84,6 +85,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public ItemDto update(ItemDto itemDto, Long itemId, Long userId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException(String.format("Item with id = %d not found.", itemId)));
@@ -104,6 +106,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public ItemDto updateBookings(ItemDto itemDto) {
         LocalDateTime now = LocalDateTime.now();
         List<Booking> bookings = bookingRepository.findAllBookingsItem(itemDto.getId());
@@ -125,6 +128,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long itemId) {
         itemRepository.deleteById(itemId);
     }
@@ -150,6 +154,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public CommentDto addComment(Long itemId, Long userId, CommentDto commentDto) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException(String.format("Item with id = %d not found.", itemId)));

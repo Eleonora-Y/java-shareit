@@ -27,6 +27,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     private final ItemRepository itemRepository;
 
     @Override
+    @Transactional
     public ItemRequestDto create(ItemRequestDto itemRequestDto, Long userId) {
         ItemRequest itemRequest = ItemRequest.builder()
                 .description(itemRequestDto.getDescription())
