@@ -97,7 +97,7 @@ public class ItemServiceTest {
     private final CommentDto commentDto = CommentDto.builder().id(1L).text("Text").item(itemDto).authorName("User").build();
 
     @Test
-    void createItem_thenAllIsValid_whenReturnedExpectedItem() {
+    void createItemThenAllIsValidWhenReturnedExpectedItem() {
         Mockito.when(userService.findUserById(anyLong()))
                 .thenReturn(userDto);
 
@@ -110,7 +110,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void createItem_thenUserIsNotExist_whenReturnedNotFoundException() {
+    void createItemThenUserIsNotExistWhenReturnedNotFoundException() {
         Mockito.when(userService.findUserById(anyLong()))
                 .thenThrow(new NotFoundException(String.format(String.format("User with id = %d not found.", 100L))));
 
@@ -120,7 +120,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void findById_whenParamsIsValid_thenReturnedExpectedItem() {
+    void findByIdWhenParamsIsValidThenReturnedExpectedItem() {
         Mockito.when(itemRepository.findById(anyLong()))
                 .thenReturn(Optional.of(item));
 
@@ -142,7 +142,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void findById_whenItemNotFound_thenReturnedNotFoundExeption() {
+    void findByIdWhenItemNotFoundThenReturnedNotFoundExeption() {
         Mockito.when(itemRepository.findById(anyLong()))
                 .thenThrow(new NotFoundException(String.format("Item with id = %d not found.", 100L)));
 
@@ -152,7 +152,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void findAllUserItems_whenAllParamsIsValid_thenReturnedListItems() {
+    void findAllUserItemsWhenAllParamsIsValidThenReturnedListItems() {
         Mockito.when(itemRepository.findAllByOwnerId(anyLong(), any()))
                 .thenReturn(List.of(item));
 
@@ -168,7 +168,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void updateItem_whenAllParamsIsValid_thenReturnedUpdatedItem() {
+    void updateItemWhenAllParamsIsValidThenReturnedUpdatedItem() {
         ItemDto itemDtoUpdate = ItemDto.builder()
                 .id(1L)
                 .name("ItemUpdate")
@@ -187,7 +187,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void updateItem_whenUserIsNotOwnerId_thenReturnedOperationAccessException() {
+    void updateItemWhenUserIsNotOwnerIdThenReturnedOperationAccessException() {
         Mockito.when(itemRepository.findById(anyLong())).thenReturn(Optional.of(item));
 
         Exception e = assertThrows(OperationAccessException.class,
@@ -196,7 +196,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void updateItem_whenItemIsNotFound_thenReturnedNotFoundException() {
+    void updateItemWhenItemIsNotFoundThenReturnedNotFoundException() {
         Mockito.when(itemRepository.findById(anyLong()))
                 .thenReturn(Optional.empty());
 
@@ -206,7 +206,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void searchTest_AllParamsIsValid_thenReturnedPageableListOfItems() {
+    void searchTestAllParamsIsValidThenReturnedPageableListOfItems() {
         assertThat(itemService.search("", 0, 10), hasSize(0));
         assertThat(itemService.search(null, 0, 10), hasSize(0));
 
@@ -236,7 +236,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    void findOwnerId_whenItemIsNotFound_thenReturnedNotFoundException() {
+    void findOwnerIdWhenItemIsNotFoundThenReturnedNotFoundException() {
         Mockito.when(itemRepository.findById(anyLong()))
                 .thenReturn(Optional.empty());
 

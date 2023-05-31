@@ -51,7 +51,7 @@ public class BookingControllerTest {
             .build();
 
     @Test
-    void createBooking_whenAllParamsIsValid_thenReturnedStatusIsOk() throws Exception {
+    void createBookingWhenAllParamsIsValidThenReturnedStatusIsOk() throws Exception {
         Mockito.when(bookingService.create(any(), anyLong()))
                 .thenReturn(outputBookingDto);
 
@@ -69,7 +69,7 @@ public class BookingControllerTest {
     }
 
     @Test
-    void createBooking_whenStartIsNotValid_thenReturnedStatusIsBadRequest() throws Exception {
+    void createBookingWhenStartIsNotValidThenReturnedStatusIsBadRequest() throws Exception {
         InputBookingDto badInputBookingDto = InputBookingDto.builder()
                 .start(LocalDateTime.of(1000, 05, 10, 13, 00, 00))
                 .end(LocalDateTime.of(2023, 05, 20, 13, 00, 00))
@@ -89,7 +89,7 @@ public class BookingControllerTest {
     }
 
     @Test
-    void createBooking_whenUserIsNotOwner_thenReturnedStatusIsNotFound() throws Exception {
+    void createBookingWhenUserIsNotOwnerThenReturnedStatusIsNotFound() throws Exception {
         Mockito.when(bookingService.create(any(), anyLong()))
                 .thenThrow(new NotFoundException(String.format("User with id = %d not found.", 100L)));
 
@@ -104,7 +104,7 @@ public class BookingControllerTest {
     }
 
     @Test
-    void findBookingById_whenAllParamsIsValid_thenReturnedStatusIsOk() throws Exception {
+    void findBookingByIdWhenAllParamsIsValidThenReturnedStatusIsOk() throws Exception {
         Mockito.when(bookingService.findBookingById(anyLong(), anyLong()))
                 .thenReturn(outputBookingDto);
 
@@ -121,7 +121,7 @@ public class BookingControllerTest {
     }
 
     @Test
-    void findBookingById_whenBookingIdNotFound_thenReturnedStatusIsNotFound() throws Exception {
+    void findBookingByIdWhenBookingIdNotFoundThenReturnedStatusIsNotFound() throws Exception {
         Mockito.when(bookingService.findBookingById(anyLong(), anyLong()))
                 .thenThrow(new NotFoundException(String.format("Booking with id = %d not found.", 100L)));
 
@@ -136,7 +136,7 @@ public class BookingControllerTest {
     }
 
     @Test
-    void findAllByUserId_whenAllParamsIsValid_whenReturnedStatusIsOk() throws Exception {
+    void findAllByUserIdWhenAllParamsIsValidWhenReturnedStatusIsOk() throws Exception {
         Mockito.when(bookingService.findAllBookingsByUser(any(), anyLong(), anyInt(), anyInt()))
                 .thenReturn(List.of(outputBookingDto));
 
@@ -152,7 +152,7 @@ public class BookingControllerTest {
     }
 
     @Test
-    void findAllByOwnerId_whenAllParamsIsValid_whenReturnedStatusIsOk() throws Exception {
+    void findAllByOwnerIdWhenAllParamsIsValidWhenReturnedStatusIsOk() throws Exception {
         Mockito.when(bookingService.findAllBookingsByOwner(any(), anyLong(), anyInt(), anyInt()))
                 .thenReturn(List.of(outputBookingDto));
 
@@ -168,7 +168,7 @@ public class BookingControllerTest {
     }
 
     @Test
-    void approveBooking_whenAllParamsIsValid_whenReturnedStatusIsOk() throws Exception {
+    void approveBookingWhenAllParamsIsValidWhenReturnedStatusIsOk() throws Exception {
         Mockito.when(bookingService.approve(anyLong(), anyInt(), anyBoolean()))
                 .thenReturn(outputBookingDto);
 

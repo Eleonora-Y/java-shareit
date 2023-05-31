@@ -33,7 +33,7 @@ public class UserControllerTest {
     private final UserDto userDto = new UserDto(1L, "User", "user@email.com");
 
     @Test
-    void createUser_whenUserDtoValid_thenReturnedStatusIsOk() throws Exception {
+    void createUserWhenUserDtoValidThenReturnedStatusIsOk() throws Exception {
         mvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(userDto))
@@ -44,7 +44,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void createUser_whenUserDtoNotValid_thenReturnedBadRequest() throws Exception {
+    void createUserWhenUserDtoNotValidThenReturnedBadRequest() throws Exception {
         UserDto userDto2 = new UserDto(2L, "", "user2@email.ru");
 
         mvc.perform(post("/users")
@@ -57,7 +57,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void findById_whenUserIsExist_thenReturnedStatusIsOk() throws Exception {
+    void findByIdWhenUserIsExistThenReturnedStatusIsOk() throws Exception {
         Mockito.when(userService.findUserById(anyLong()))
                 .thenReturn(userDto);
 
@@ -71,7 +71,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void findById_whenUserIsNotExist_thenReturnedStatusIsNotFound() throws Exception {
+    void findByIdWhenUserIsNotExistThenReturnedStatusIsNotFound() throws Exception {
         Mockito.when(userService.findUserById(100L))
                 .thenThrow(new NotFoundException(String.format("User with id = %d not found.", 1L)));
 

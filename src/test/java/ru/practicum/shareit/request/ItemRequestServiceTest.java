@@ -50,7 +50,7 @@ public class ItemRequestServiceTest {
             .build();
 
     @Test
-    void createRequest_whenUserIsExist_thenReturnedExpectedRequest() {
+    void createRequestWhenUserIsExistThenReturnedExpectedRequest() {
         Mockito.when(userService.findUserById(anyLong()))
                 .thenReturn(userDto);
 
@@ -60,7 +60,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void createRequest_whenUserIsNotExist_thenReturnedNotFoundException() {
+    void createRequestWhenUserIsNotExistThenReturnedNotFoundException() {
         Mockito.when(userService.findUserById(anyLong()))
                 .thenThrow(new NotFoundException(String.format("User with id = %d not found.", 1L)));
 
@@ -70,7 +70,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void findById_whenRequestIsValid_thenReturnedExpectedRequest() {
+    void findByIdWhenRequestIsValidThenReturnedExpectedRequest() {
         Mockito.when(userService.findUserById(anyLong()))
                 .thenReturn(userDto);
         Mockito.when(requestRepository.findById(any()))
@@ -81,7 +81,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void findById_whenRequestIsNotExist_thenReturnedNotFoundException() {
+    void findByIdWhenRequestIsNotExistThenReturnedNotFoundException() {
         Mockito.when(requestRepository.findById(anyLong()))
                 .thenThrow(new NotFoundException(String.format("Request with id = %d not found.", 1L)));
 
@@ -91,7 +91,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void findAllRequests_whenParamsIsExist_thenReturnedExpectedListRequests() {
+    void findAllRequestsWhenParamsIsExistThenReturnedExpectedListRequests() {
         Mockito.when(userService.findUserById(anyLong()))
                 .thenReturn(userDto);
         Mockito.when(itemRepository.findAllByItemRequest(any()))
@@ -102,7 +102,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void findAllRequests_whenUserIsNotExist_thenReturnedNotFoundException() {
+    void findAllRequestsWhenUserIsNotExistThenReturnedNotFoundException() {
         Mockito.when(userService.findUserById(anyLong()))
                 .thenThrow(new NotFoundException(String.format("User with id = %d not found.", 1L)));
 
@@ -113,7 +113,7 @@ public class ItemRequestServiceTest {
 
 
     @Test
-    void findAllUserRequests_whenUserIsExist_thenReturnedExpectedListRequests() {
+    void findAllUserRequestsWhenUserIsExistThenReturnedExpectedListRequests() {
         Mockito.when(userService.findUserById(anyLong()))
                 .thenReturn(userDto);
         Mockito.when(requestRepository.findAllByRequesterIdOrderByCreatedDesc(anyLong()))
@@ -124,7 +124,7 @@ public class ItemRequestServiceTest {
     }
 
     @Test
-    void findAllUserRequests_whenUserIsNotExist_thenReturnedNotFoundException() {
+    void findAllUserRequestsWhenUserIsNotExistThenReturnedNotFoundException() {
         Mockito.when(userService.findUserById(anyLong()))
                 .thenThrow(new NotFoundException(String.format("User with id = %d not found.", 1L)));
 

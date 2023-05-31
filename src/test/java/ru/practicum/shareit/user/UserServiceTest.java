@@ -42,7 +42,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void findById_whenUserIsExist_thenReturnedExpectedUser() {
+    void findByIdWhenUserIsExistThenReturnedExpectedUser() {
         Mockito.when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.of(user));
 
@@ -50,7 +50,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void findById_whenUserIsNotExist_thenReturnedNotFoundException() {
+    void findByIdWhenUserIsNotExistThenReturnedNotFoundException() {
         Mockito.when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.empty());
 
@@ -59,7 +59,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void findAllUsers_whenUsersIsExist_thenReturnedExpectedListUsers() {
+    void findAllUsersWhenUsersIsExistThenReturnedExpectedListUsers() {
         Mockito.when(userRepository.findAll())
                 .thenReturn(List.of(user, user2));
 
@@ -68,7 +68,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void findAllUsers_whenUsersIsNotExist_thenReturnedEmptyList() {
+    void findAllUsersWhenUsersIsNotExistThenReturnedEmptyList() {
         Mockito.when(userRepository.findAll())
                 .thenReturn(new ArrayList<>());
 
@@ -76,7 +76,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void updateUser_whenUserIsExist_thenReturnedExpectedUpdatedUser() {
+    void updateUserWhenUserIsExistThenReturnedExpectedUpdatedUser() {
         Mockito.when(userRepository.findById(1L))
                 .thenReturn(Optional.of(user));
 
@@ -90,7 +90,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void updateUser_whenUserIsNotExist_thenReturnedNotFoundException() {
+    void updateUserWhenUserIsNotExistThenReturnedNotFoundException() {
         Mockito.when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.empty());
 

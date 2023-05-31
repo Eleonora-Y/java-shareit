@@ -38,7 +38,7 @@ public class ItemRequestControllerTest {
     private final ItemRequestDto itemRequestDto = ItemRequestDto.builder().id(1L).description("testDescription").build();
 
     @Test
-    void createRequest_whenRequestDtoValid_thenReturnedStatusIsOk() throws Exception {
+    void createRequestWhenRequestDtoValidThenReturnedStatusIsOk() throws Exception {
         Mockito.when(requestService.create(any(), anyLong()))
                 .thenReturn(itemRequestDto);
 
@@ -55,7 +55,7 @@ public class ItemRequestControllerTest {
     }
 
     @Test
-    void createRequest_whenRequestDtoNotValid_thenReturnedStatusIsBadRequest() throws Exception {
+    void createRequestWhenRequestDtoNotValidThenReturnedStatusIsBadRequest() throws Exception {
         ItemRequestDto badItemRequestDto = ItemRequestDto.builder().description("").build();
 
         Mockito.when(requestService.create(badItemRequestDto, 1L))
@@ -70,7 +70,7 @@ public class ItemRequestControllerTest {
     }
 
     @Test
-    void findById_whenRequestIsExist_thanReturnedStatusIsOk() throws Exception {
+    void findByIdWhenRequestIsExistThanReturnedStatusIsOk() throws Exception {
         Mockito.when(requestService.findById(anyLong(), anyLong()))
                 .thenReturn(itemRequestDto);
 
@@ -83,7 +83,7 @@ public class ItemRequestControllerTest {
     }
 
     @Test
-    void findById_whenRequestIsNotExist_thanReturnedStatusIsNotFound() throws Exception {
+    void findByIdWhenRequestIsNotExistThanReturnedStatusIsNotFound() throws Exception {
         Mockito.when(requestService.findById(anyLong(), anyLong()))
                 .thenThrow(new NotFoundException(String.format("Request with id = %d not found.", 1L)));
 
@@ -96,7 +96,7 @@ public class ItemRequestControllerTest {
     }
 
     @Test
-    void findAllUserRequests_whenUserIsExist_thenReturnedStatusIsOk() throws Exception {
+    void findAllUserRequestsWhenUserIsExistThenReturnedStatusIsOk() throws Exception {
         Mockito.when(requestService.findAllUserRequests(anyLong()))
                 .thenReturn(Collections.emptyList());
 
@@ -111,7 +111,7 @@ public class ItemRequestControllerTest {
     }
 
     @Test
-    void findAllUserRequests_whenUserIsNotExist_thenReturnedStatusIsNotFound() throws Exception {
+    void findAllUserRequestsWhenUserIsNotExistThenReturnedStatusIsNotFound() throws Exception {
         Mockito.when(requestService.findAllUserRequests(anyLong()))
                 .thenThrow(new NotFoundException(String.format("User with id = %d not found.", 100L)));
 

@@ -46,7 +46,6 @@ public class ItemServiceImpl implements ItemService {
     private final ItemRequestServiceImpl requestService;
 
     @Override
-    @Transactional
     public ItemDto create(Long userId, ItemDto itemDto) {
         userService.findUserById(userId);
         Item item = ItemMapper.toItem(itemDto);
@@ -57,7 +56,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public ItemDto findItemById(Long itemId, Long userId) {
         ItemDto result;
         Item item = itemRepository.findById(itemId)
@@ -72,7 +71,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public List<ItemDto> findAllUsersItems(Long userId, Integer from, Integer size) {
         Pageable page = PageRequest.of(from / size, size);
         List<ItemDto> item = itemRepository.findAllByOwnerId(userId, page).stream()
@@ -85,7 +84,6 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional
     public ItemDto update(ItemDto itemDto, Long itemId, Long userId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException(String.format("Item with id = %d not found.", itemId)));
@@ -127,13 +125,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional
     public void deleteById(Long itemId) {
         itemRepository.deleteById(itemId);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public List<ItemDto> search(String text, Integer from, Integer size) {
         Pageable page = PageRequest.of(from / size, size);
         if (text == null || text.isBlank()) {
@@ -145,7 +142,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public Long findOwnerId(Long itemId) {
         return itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException(String.format("Item with id = %d not found.", itemId)))
@@ -153,7 +150,6 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional
     public CommentDto addComment(Long itemId, Long userId, CommentDto commentDto) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException(String.format("Item with id = %d not found.", itemId)));

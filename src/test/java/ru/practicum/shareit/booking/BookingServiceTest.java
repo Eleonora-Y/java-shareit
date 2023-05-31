@@ -72,7 +72,7 @@ public class BookingServiceTest {
 
 
     @Test
-    void createBooking_whenTimeIsNotValid_thenReturnedTimeDataException() {
+    void createBookingWhenTimeIsNotValidThenReturnedTimeDataException() {
         InputBookingDto bookingBadTime = InputBookingDto.builder()
                 .start(LocalDateTime.now().plusHours(1L))
                 .end(LocalDateTime.now().minusHours(1L))
@@ -86,7 +86,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void createBooking_whenUserIsNotOwner_thenReturnedOperationAccessException() {
+    void createBookingWhenUserIsNotOwnerThenReturnedOperationAccessException() {
         Mockito.when(userService.findUserById(anyLong()))
                 .thenReturn(userDto);
         Mockito.when(itemService.findItemById(anyLong(), anyLong()))
@@ -101,7 +101,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void createBooking_whenItemIsNotAvailable_thenReturnedNotAvailableException() {
+    void createBookingWhenItemIsNotAvailableThenReturnedNotAvailableException() {
         itemDto.setAvailable(false);
         Mockito.when(userService.findUserById(anyLong()))
                 .thenReturn(userDto);
@@ -115,7 +115,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void findBookingById_whenBookingIsNotFound_thenReturnedNotFoundException() {
+    void findBookingByIdWhenBookingIsNotFoundThenReturnedNotFoundException() {
         Mockito.when(bookingRepository.findById(anyLong()))
                 .thenReturn(Optional.empty());
 
@@ -126,7 +126,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void findBookingById_whenUserIsNotOwner_thenReturnedOperationAccessException() {
+    void findBookingByIdWhenUserIsNotOwnerThenReturnedOperationAccessException() {
         Mockito.when(bookingRepository.findById(anyLong()))
                 .thenReturn(Optional.of(booking));
         Exception e = assertThrows(OperationAccessException.class,
@@ -135,7 +135,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getAllBookings_whenStateIsUnknown_thenReturnedBadRequestException() {
+    void getAllBookingsWhenStateIsUnknownThenReturnedBadRequestException() {
         Mockito.when(userService.findUserById(anyLong()))
                 .thenReturn(userDto);
         Exception e = assertThrows(BadRequestException.class,
@@ -144,7 +144,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void approve_whenBookingDecision_thenReturnedAlreadyExistsException() {
+    void approveWhenBookingDecisionThenReturnedAlreadyExistsException() {
         Mockito.when(bookingRepository.findById(anyLong()))
                 .thenReturn(Optional.of(booking));
         Mockito.when(itemService.findOwnerId(anyLong()))
@@ -155,7 +155,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void approve_whenUserIsNotOwner_thenReturnedOperationAccessException() {
+    void approveWhenUserIsNotOwnerThenReturnedOperationAccessException() {
         Mockito.when(bookingRepository.findById(anyLong()))
                 .thenReturn(Optional.of(booking));
         Mockito.when(itemService.findOwnerId(anyLong()))
@@ -166,7 +166,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void getAllBookingsByOwner_whenStateIsUnknown_thenReturnedBadRequestException() {
+    void getAllBookingsByOwnerWhenStateIsUnknownThenReturnedBadRequestException() {
         Mockito.when(userService.findUserById(anyLong()))
                 .thenReturn(userDto);
         Exception e = assertThrows(BadRequestException.class,

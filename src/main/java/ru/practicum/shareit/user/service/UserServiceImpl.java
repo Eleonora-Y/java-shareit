@@ -21,20 +21,19 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    @Transactional
     public UserDto create(UserDto userDto) {
         return toUserDto(userRepository.save(toUser(userDto)));
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public UserDto findUserById(Long userId) {
         return toUserDto(userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id = %d not found.", userId))));
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public List<UserDto> findAllUsers() {
         return userRepository.findAll().stream()
                 .map(UserMapper::toUserDto)
@@ -42,7 +41,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public UserDto update(UserDto userDto, Long userId) {
         User user = toUser(findUserById(userId));
         if (userDto.getName() != null) {
@@ -55,7 +53,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public void delete(Long userId) {
         userRepository.deleteById(userId);
     }

@@ -50,7 +50,7 @@ public class ItemControllerTest {
     private final CommentDto commentDto = CommentDto.builder().id(1L).text("Text").authorName("Name").build();
 
     @Test
-    void createItem_whenAllParamsIsValid_thenReturnedStatusIsOk() throws Exception {
+    void createItemWhenAllParamsIsValidThenReturnedStatusIsOk() throws Exception {
         Mockito.when(itemService.create(anyLong(), any()))
                 .thenReturn(itemDto);
 
@@ -67,7 +67,7 @@ public class ItemControllerTest {
     }
 
     @Test
-    void createItem_whenItemWithoutName_thenReturnedStatusIsBadRequest() throws Exception {
+    void createItemWhenItemWithoutNameThenReturnedStatusIsBadRequest() throws Exception {
         ItemDto badItemDto = ItemDto.builder()
                 .id(1L)
                 .name("")
@@ -92,7 +92,7 @@ public class ItemControllerTest {
     }
 
     @Test
-    void createItem_whenItemWithoutAvailble_thenReturnedStatusIsBadRequest() throws Exception {
+    void createItemWhenItemWithoutAvailbleThenReturnedStatusIsBadRequest() throws Exception {
         ItemDto badItemDto = ItemDto.builder()
                 .id(1L)
                 .name("Item")
@@ -115,7 +115,7 @@ public class ItemControllerTest {
     }
 
     @Test
-    void findItemById_whenAllParamsIsValid_thenReturnedStatusIsOk() throws Exception {
+    void findItemByIdWhenAllParamsIsValidThenReturnedStatusIsOk() throws Exception {
         Mockito.when(itemService.findItemById(anyLong(), anyLong()))
                 .thenReturn(itemDto);
 
@@ -132,7 +132,7 @@ public class ItemControllerTest {
     }
 
     @Test
-    void findItemById_whenItemIdIsNotFound_thenReturnedStatusIsNotfound() throws Exception {
+    void findItemByIdWhenItemIdIsNotFoundThenReturnedStatusIsNotfound() throws Exception {
         Mockito.when(itemService.findItemById(anyLong(), anyLong()))
                 .thenThrow(new NotFoundException(String.format("Item with id = %d not found.", 100L)));
 
@@ -147,7 +147,7 @@ public class ItemControllerTest {
     }
 
     @Test
-    void findAllUsersItems_whenUserIdIsExist_thenReturnedStatusIsOk() throws Exception {
+    void findAllUsersItemsWhenUserIdIsExistThenReturnedStatusIsOk() throws Exception {
         Mockito.when(itemService.findAllUsersItems(anyLong(), anyInt(), anyInt()))
                 .thenReturn(itemsDtoList);
 
@@ -163,7 +163,7 @@ public class ItemControllerTest {
     }
 
     @Test
-    void findAllUsersItems_whenUserIdIsNotExist_thenReturnedStatusIsNotFound() throws Exception {
+    void findAllUsersItemsWhenUserIdIsNotExistThenReturnedStatusIsNotFound() throws Exception {
         Mockito.when(itemService.findAllUsersItems(anyLong(), anyInt(), anyInt()))
                 .thenThrow(new NotFoundException(String.format("User with id = %d not found.", 100L)));
 
@@ -215,7 +215,7 @@ public class ItemControllerTest {
     }
 
     @Test
-    void addComment_whenAllParamsIsValid_thenReturnedStatusIsOk() throws Exception {
+    void addCommentWhenAllParamsIsValidThenReturnedStatusIsOk() throws Exception {
         when(itemService.addComment(any(), anyLong(), any()))
                 .thenReturn(commentDto);
         mvc.perform(post("/items/1/comment")
@@ -229,7 +229,7 @@ public class ItemControllerTest {
     }
 
     @Test
-    void addComment_whenTextIsEmpty_thenReturnedStatusIsBadRequest() throws Exception {
+    void addCommentWhenTextIsEmptyThenReturnedStatusIsBadRequest() throws Exception {
         CommentDto badCommentDto = CommentDto.builder().id(1L).text("").authorName("AuthorName").build();
         Mockito.when(itemService.addComment(any(), anyLong(), any()))
                 .thenReturn(commentDto);
