@@ -10,13 +10,13 @@ public interface BookingService {
     @Transactional
     public OutputBookingDto create(InputBookingDto bookingDtoShort, long bookerId);
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public OutputBookingDto findBookingById(Long bookingId, Long userId);
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public List<OutputBookingDto> findAllBookingsByUser(String state, Long userId, Integer from, Integer size);
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public List<OutputBookingDto> findAllBookingsByOwner(String state, Long ownerId, Integer from, Integer size);
 
     @Transactional

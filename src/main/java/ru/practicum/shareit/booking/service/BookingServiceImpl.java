@@ -57,7 +57,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public OutputBookingDto findBookingById(Long bookingId, Long userId) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new NotFoundException(String.format("Booking with id = %d not found.", bookingId)));
@@ -69,7 +69,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public List<OutputBookingDto> findAllBookingsByUser(String state, Long userId, Integer from, Integer size) {
         userService.findUserById(userId);
         Pageable page = PageRequest.of(from / size, size);
@@ -99,7 +99,6 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-
     public List<OutputBookingDto> findAllBookingsByOwner(String state, Long ownerId, Integer from, Integer size) {
         userService.findUserById(ownerId);
         Pageable page = PageRequest.of(from / size, size);
@@ -124,7 +123,6 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-
     public OutputBookingDto approve(long bookingId, long userId, Boolean approve) {
         OutputBookingDto booking = findBookingById(bookingId, userId);
         Long ownerId = itemService.findOwnerId(booking.getItem().getId());
