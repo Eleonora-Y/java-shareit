@@ -38,7 +38,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public ItemRequestDto findById(Long userId, Long requestId) {
         ItemRequest itemRequest = requestRepository.findById(requestId)
                 .orElseThrow(() -> new NotFoundException(String.format("Request with id = %d not found.", requestId)));
@@ -49,7 +49,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List<ItemRequestDto> findAllRequests(Long userId, int from, int size) {
         UserMapper.toUser(userService.findUserById(userId));
         Pageable page = PageRequest.of(from / size, size, Sort.by("created"));
@@ -61,7 +61,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List<ItemRequestDto> findAllUserRequests(Long userId) {
         userService.findUserById(userId);
         return requestRepository.findAllByRequesterIdOrderByCreatedDesc(userId).stream()
